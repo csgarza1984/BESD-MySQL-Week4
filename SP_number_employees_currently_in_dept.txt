@@ -1,0 +1,19 @@
+DROP PROCEDURE IF EXISTS number_employees_currently_in_dept;
+
+delimiter //
+
+CREATE PROCEDURE number_employees_currently_in_dept (
+	IN dept_number varchar(4)
+)
+BEGIN
+	SELECT count(*)
+	FROM employees e
+	INNER JOIN dept_emp de ON e.emp_no = de.emp_no
+	INNER JOIN departments d ON d.dept_no = de.dept_no 
+	WHERE de.dept_no = dept_number
+	AND de.to_date = "9999-01-01";
+END //
+
+delimiter ;
+
+CALL number_employees_currently_in_dept("d001");

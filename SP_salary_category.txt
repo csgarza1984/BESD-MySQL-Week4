@@ -1,0 +1,33 @@
+DROP PROCEDURE IF EXISTS salary_category;
+	
+delimiter //
+	
+CREATE PROCEDURE salary_category (
+	IN employee_num int,
+	OUT salary_category varchar(20)
+)
+BEGIN
+	DECLARE current_sal int;
+	DECLARE sal_cat varchar(20);
+	
+	SELECT s.salary
+	INTO current_sal
+	FROM salaries s 
+	WHERE s.emp_no = employee_num
+	AND s.to_date = "9999-01-01";
+
+	IF current_sal < 45000 THEN
+		SET sal_cat = "Low Range";
+	ELSEIF current_sal < 90000 THEN
+		SET sal_cat = "Mid Range";
+	ELSE 
+		SET sal_cat = "High Range";
+	END IF;
+
+	SELECT sal_cat INTO salary_category;
+END //
+
+delimiter ;
+
+CALL salary_category(10009, @salcat); 
+

@@ -1,0 +1,21 @@
+DROP PROCEDURE IF EXISTS emp_salary_cat;
+
+delimiter //
+
+CREATE PROCEDURE emp_salary_cat (
+	IN employee_num int
+)
+BEGIN
+	CALL salary_category(10009, @salcat);
+
+	SELECT e.first_name, e.last_name, @salcat AS salary_range_category
+	FROM employees e 
+	INNER JOIN salaries s ON s.emp_no = e.emp_no 
+	WHERE e.emp_no = employee_num
+	AND s.to_date = "9999-01-01";
+	
+END //
+
+delimiter ;
+
+CALL emp_salary_cat(10009); 

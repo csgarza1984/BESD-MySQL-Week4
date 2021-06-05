@@ -1,0 +1,17 @@
+DROP PROCEDURE IF EXISTS number_employees_in_dept;
+
+delimiter //
+
+CREATE PROCEDURE number_employees_in_dept (
+	IN dept_number varchar(4)
+)
+BEGIN
+	SELECT count(*)
+	FROM employees e
+	INNER JOIN dept_emp de ON e.emp_no = de.emp_no
+	WHERE de.dept_no = dept_number;
+END //
+
+delimiter ;
+
+CALL number_employees_in_dept("d001");
